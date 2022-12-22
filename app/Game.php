@@ -18,22 +18,30 @@ class Game
     }
 
     public function start() {
+        echo <<<EOT
+                Игра началась!
+                Шансы выиграть у {$this->player1->name} : {$this->player1->oods($this->player2)}
+                Шансы выиграть у {$this->player2->name} : {$this->player2->oods($this->player1)} \n
+                EOT;
+        $this->play();
+    }
+
+    public function play() {
         while(true) {
-
-
             if($this->flip() == "орел") {
                 $this->player1->point($this->player2);
             } else {
                 $this->player2->point($this->player1);
             }
             if($this->player1->bankrupt() || $this->player2->bankrupt()) return $this->end();
-
             $this->flips++;
         }
     }
+
     public function winner():Player {
         return $this->player1->bank() > $this->player2->bank() ? $this->player1 : $this->player2;
     }
+
     public function end(): void
     {
         echo <<<EOT
